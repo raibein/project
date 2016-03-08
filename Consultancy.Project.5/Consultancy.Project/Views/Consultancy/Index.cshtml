@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Consultancy.Project.Models.Consultancy>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Consultancy Info</h2>
+<div class="pull-right">
+    <p>
+        <a href="/Consultancy/Create" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    </p>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Added Date</th>
+        <th>Modified Date</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach(var m in Model)
+    {
+        <tr>
+            <td>@m.Id</td>
+            <td>@m.Name</td>
+            <td>@m.AddedDate</td>
+            <td>@m.ModifiedDate</td>
+            <td>@m.Status</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit/"+@m.Id, "Consultancy")
+                @Html.ActionLink("Delete", "Edit/" + @m.Id, "Consultancy")
+            </td>
+        </tr>
+    }
+</table>

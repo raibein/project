@@ -35,38 +35,18 @@ namespace Consultancy.Project.Areas.Admin.Controllers
         }
 
         // GET: Admin/Dashboard/Consultancy
-        public ActionResult Consultancy(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+        public ActionResult Consultancy(int? page)
+        {            
+            //var students = from s in _dbContext.tbl_consultancy select s;
 
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-            
-            var students = from s in _dbContext.tbl_consultancy
-                           select s;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                students = students.Where(s => s.Name.Contains(searchString)
-                                       || s.State.Contains(searchString));
-            }
-
+            var consultancyVar = _consultancyRepository.GetAll();
 
             //return View(_dbContext.tbl_consultancy.ToList()); // This function directly called from the database located from the "context" folder
-            return View(_consultancyRepository.GetAll()); // This function called from the "Repository" folder which is dependency injection of Unity in App_Start which is also registered in Global.asax
+            //return View(_consultancyRepository.GetAll()); // This function called from the "Repository" folder which is dependency injection of Unity in App_Start which is also registered in Global.asax
 
             int pageSize = 2;
             int pageNumber = (page ?? 1);
-            return View(students.ToPagedList(pageNumber, pageSize));
+            return View(consultancyVar.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Admin/Dashboar/Consultancy/Details/5

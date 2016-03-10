@@ -1,0 +1,70 @@
+﻿@model PagedList.IPagedList<Consultancy.Project.Areas.Admin.Models.ConsultancyModel> 
+@using PagedList.Mvc ;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+    <h2>Consultancy List</h2>
+
+
+    <div class="pull-right">
+        <p>
+            <a href="Create" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+        </p>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+        <tr>
+            <th>
+                Logo
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Status
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Html.DisplayFor(modelItem => item.Logo)"><img src="~/Areas/Admin/Images/@Html.DisplayFor(modelItem => item.Logo)" width="50" height="50" /></a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("/Consultancy",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
